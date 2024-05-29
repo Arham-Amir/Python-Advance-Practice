@@ -12,9 +12,6 @@ def print10B():
 t1 = threading.Thread(target=print10A)
 t2 = threading.Thread(target=print10B)
 
-lock = threading.Lock()
-# and use lock by using with keyword
-
 t1.start()
 t2.start()
 
