@@ -1,5 +1,5 @@
 import random
-from functools import reduce
+import os
 
 MAX_TRIES = 10
 HANGMANPICS = ['''
@@ -108,6 +108,7 @@ def game():
     MAX_TRIES = len(word)
     
     while tries< MAX_TRIES and guessed_letters != word:
+        os.system('cls||clear')
         print(word)
         printCurrentLevel(guessed_letters, tries)
         (guessed_letters, tries) = getInputAndProcess(word, guessed_letters, tries)
