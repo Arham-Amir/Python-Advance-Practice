@@ -1,17 +1,18 @@
 import os
 
-BOARD_SIZE = 3
+BOARD_SIZE = 4
+
 SIGNS = {
     1: 'X',
     2: 'O'
 }
 
 def displayBoard(board):
-    print(f"""
-        {board[0]} | {board[1]} | {board[2]}
-        {board[3]} | {board[4]} | {board[5]}
-        {board[6]} | {board[7]} | {board[8]}
-          """)
+    for i in range(0, BOARD_SIZE*BOARD_SIZE, BOARD_SIZE):
+        for j in range(BOARD_SIZE):
+            print(board[i+j], end="  |  ")  
+        print()
+    print()
 
 def checkColumn(board, currentTurn, last_marked_position):
     i = last_marked_position
@@ -76,9 +77,9 @@ def evaluate(board, currentTurn, last_marked_position):
 
 def getInputAndProcess(board, currentTurn):
     print(f"Player {currentTurn} Turn :-\n")
-    input_position = int(input("Enter Position from 0-8 : "))
-    if not (0 <= input_position <= 8) or board[input_position] != '_':
-        input_position = int(input("\nInvalid Position.\nEnter Position from 0-8 : "))
+    input_position = int(input(f"Enter Position from 0-{BOARD_SIZE**2-1} : "))
+    if not (0 <= input_position <= BOARD_SIZE**2-1) or board[input_position] != '_':
+        input_position = int(input(f"\nInvalid Position.\nEnter Position from 0-{BOARD_SIZE**2-1} : "))
     
     board[input_position] = SIGNS[currentTurn]
     return input_position
