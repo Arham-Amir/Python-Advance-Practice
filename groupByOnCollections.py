@@ -1,4 +1,3 @@
-from collections import defaultdict
 collections = [
 {'Name': 'John', 'Department': 'HR', 'Salary': 50000, 'ID': 1, 'City': 'San Diego'},
 {'Name': 'Alice', 'Department': 'IT', 'Salary': 60000, 'ID': 2, 'City': 'Houston'},
@@ -15,21 +14,31 @@ collections = [
 
 
 def groupBy(columnName):
-    output = defaultdict(list) 
+    output = {} 
     for collection in collections:
         if columnName in collection:
-            output[collection[columnName]].append(collection)
+            if collection[columnName] in output:
+                output[collection[columnName]].append(collection)
+            else:
+                output[collection[columnName]] = [collection]
         else:
-            output['others'].append(collection)
+            if 'others' in output:
+                output['others'].append(collection)
+            else:
+                output['others'] = [collection]
     return output
 
-columnName = 'Department'
+columnName = 'City'
 output = groupBy(columnName)
 
-for key, value in output.items():
-    print(key, " : \n")
-    for el in value:
-        print(el)
+print(output)
+# for key, val in output.items():
+#     print(key, val, "\n")
+
+# for key, value in output.items():
+#     print(key, " : \n")
+#     for el in value:
+#         print(el)
     
 # columnValue = "HR"
 # for el in output[columnValue]:
