@@ -27,28 +27,32 @@ class User:
  
     def load_particular_user_record(self, user_id):
         if user_id in User.users_record:
-            return User.users_record[user_id]
+            return list(User.users_record[user_id])
         else:
             return []
         
     def rent_book(self, _book):
-        self.rented_books_list.append(_book.id)
-        if self.user_identity_number in User.users_record:
-            User.users_record[self.user_identity_number].append(_book.id)
+        if _book.id not in self.rented_books_list:  # Check if book is not already rented
+            self.rented_books_list.append(_book.id)
+            if self.user_identity_number in User.users_record:
+                User.users_record[self.user_identity_number].append(_book.id)
+            else:
+                User.users_record[self.user_identity_number] = [_book.id]
+            with User.lock:
+                with open(User.filepath, 'a') as file:
+                    file.write(f"{self.user_identity_number},{_book.id}\n")
+            print("Book Borrowed Successfully !")
         else:
-            User.users_record[self.user_identity_number] = [_book.id]
-        with User.lock:
-            with open(User.filepath, 'a') as file:
-                file.write(f"{self.user_identity_number},{_book.id}\n")
-        print("Book Borrowed Sucessfully !")        
+            print("You have already rented this book.")
 
     def return_book(self, _book):
         if _book.id in self.rented_books_list:
             self.rented_books_list.remove(_book.id)
-            print(User.users_record)
-            User.users_record[self.user_identity_number].remove(_book.id)
+            if len(User.users_record[self.user_identity_number]) == 1: 
+                del User.users_record[self.user_identity_number]
+            else:
+                User.users_record[self.user_identity_number].remove(_book.id)
             self._update_file()
-            print("Book Returned Sucessfully.")
         else:
             print(f"User {self.user_identity_number} dont have book with id {_book.id}.")
 

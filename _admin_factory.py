@@ -3,6 +3,7 @@ import os
 class AdminFactory:
     def __init__(self, library: Library):
         self.library = library
+        print(self.library)
     
     def process_admin_functionalities(self):
         while True:

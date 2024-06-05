@@ -5,6 +5,7 @@ import os
 class UserFactory:
     def __init__(self, library:Library):
         self.library = library
+        print(self.library)
     
     def get_userid_input(self):
         id_number = get_string_input("Enter your Identity Number: ")
@@ -38,7 +39,7 @@ class UserFactory:
             return choice
         except:
             print("Choice should be integer value !\n")
-            return self.get_input_choice()
+            return self._get_input_choice()
 
     def _processInput(self, choice, user):
         os.system('cls||clear')

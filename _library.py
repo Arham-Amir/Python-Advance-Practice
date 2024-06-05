@@ -83,10 +83,14 @@ class Library:
         with self.lock:
             for book in self.books:
                 if book.id == input_book_id:
-                    self.books.remove(book)
-                    self._update_file()
-                    print(f"Book with id '{input_book_id}' removed successfully.")
-                    return
+                    if(book.available):
+                        self.books.remove(book)
+                        self._update_file()
+                        print(f"Book with id '{input_book_id}' removed successfully.")
+                        return
+                    else:
+                        print(f"Book with id '{input_book_id}' is not available in library so you cant remove it right now.")
+                        return
             print(f"Book with id '{input_book_id}' not found.")
 
     def update_book(self):
@@ -104,7 +108,7 @@ class Library:
                         print(f"Book with id '{input_book_id}' updated successfully.")
                         return
                     else:
-                        print(f"Book with id '{input_book_id}' not available in library so you cant update it right now.")
+                        print(f"Book with id '{input_book_id}' is not available in library so you cant update it right now.")
                         return
             print(f"Book with id '{input_book_id}' not found.")
 
@@ -125,7 +129,7 @@ class Library:
                         user.rent_book(book)
                         print(f"Book with id '{input_book_id}' rented successfully.")
                         return
-                print(f"Book with id '{input_book_id}' not available.")
+                print(f"Book with id '{input_book_id}' is not available.")
         else:
             print("Sorry. No Book available in library at this time.\n")
             
